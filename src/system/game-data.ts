@@ -196,7 +196,7 @@ export class GameData {
       voucherUnlocks: this.voucherUnlocks,
       voucherCounts: this.voucherCounts,
       eggs: this.eggs.map(e => new EggData(e)),
-      gameVersion: globalScene.game.config.gameVersion,
+      gameVersion: (globalScene as any).game.config.gameVersion,
       timestamp: Date.now(),
       eggPity: this.eggPity.slice(0),
       unlockPity: this.unlockPity.slice(0),
@@ -577,7 +577,7 @@ export class GameData {
     setSetting(setting, valueIndex);
 
     settings[setting] = valueIndex;
-    settings["gameVersion"] = globalScene.game.config.gameVersion;
+    settings["gameVersion"] = (globalScene as any).game.config.gameVersion;
 
     localStorage.setItem("settings", JSON.stringify(settings));
 
@@ -816,7 +816,7 @@ export class GameData {
         globalScene.currentBattle.battleType === BattleType.TRAINER
           ? new TrainerData(globalScene.currentBattle.trainer)
           : null,
-      gameVersion: globalScene.game.config.gameVersion,
+      gameVersion: (globalScene as any).game.config.gameVersion,
       timestamp: Date.now(),
       challenges: globalScene.gameMode.challenges.map(c => new ChallengeData(c)),
       mysteryEncounterType: globalScene.currentBattle.mysteryEncounter?.encounterType ?? -1,
@@ -930,7 +930,7 @@ export class GameData {
           globalScene.gameMode.challenges = fromSession.challenges.map(c => c.toChallenge());
         }
 
-        globalScene.setSeed(fromSession.seed || globalScene.game.config.seed[0]);
+        globalScene.setSeed(fromSession.seed || (globalScene as any).game.config.seed[0]);
         globalScene.resetSeed();
 
         console.log("Seed:", globalScene.seed);
@@ -945,7 +945,7 @@ export class GameData {
 
         for (const p of fromSession.party) {
           const pokemon = p.toPokemon() as PlayerPokemon;
-          pokemon.setVisible(false);
+          (pokemon as any).setVisible(false);
           loadPokemonAssets.push(pokemon.loadAssets(false));
           party.push(pokemon);
         }
@@ -1521,16 +1521,17 @@ export class GameData {
 
   private initDexData(): void {
     const data: DexData = {};
-
+    // UNLOCK ALL POKEMONS
+    const allAttr = 0xffffffffffffffffn; // Set all attribute bits to 1 (caught/seen everything)
     for (const species of allSpecies) {
       data[species.speciesId] = {
-        seenAttr: 0n,
-        caughtAttr: 0n,
-        natureAttr: 0,
-        seenCount: 0,
-        caughtCount: 0,
-        hatchedCount: 0,
-        ivs: [0, 0, 0, 0, 0, 0],
+        seenAttr: allAttr,
+        caughtAttr: allAttr,
+        natureAttr: 1, // You can also set this to unlock natures if needed
+        seenCount: 1,
+        caughtCount: 1,
+        hatchedCount: 1,
+        ivs: [31, 31, 31, 31, 31, 31], // Max IVs
         ribbons: new RibbonData(0),
       };
     }
