@@ -1,5 +1,5 @@
 {
-  "buildCommand": "git submodule update --init --recursive && vite build && mkdir -p dist/assets && cp -R assets/* dist/assets && mkdir -p dist/locales && cp -R locales/* dist/locales",
+  "buildCommand": "git submodule update --init --recursive && mkdir -p public/assets public/locales && cp -R assets/* public/assets && cp -R locales/* public/locales && vite build",
   "outputDirectory": "dist",
   "cleanUrls": false
 }
