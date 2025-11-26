@@ -2997,10 +2997,10 @@ export class StarterSelectUiHandler extends MessageUiHandler {
     switch (globalScene.gameMode.modeId) {
       case GameModes.ENDLESS:
       case GameModes.SPLICED_ENDLESS:
-        valueLimit.value = 15;
+        valueLimit.value = 65;
         break;
       default:
-        valueLimit.value = 10;
+        valueLimit.value = 65;
     }
 
     applyChallenges(ChallengeType.STARTER_POINTS, valueLimit);
