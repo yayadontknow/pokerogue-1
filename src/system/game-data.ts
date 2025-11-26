@@ -1522,7 +1522,12 @@ export class GameData {
   private initDexData(): void {
     const data: DexData = {};
     // UNLOCK ALL POKEMONS
-    const allAttr = 0xffffffffffffffffn; // Set all attribute bits to 1 (caught/seen everything)
+    const allAttr =
+      DexAttr.NON_SHINY |
+      DexAttr.MALE |
+      DexAttr.FEMALE |
+      DexAttr.DEFAULT_VARIANT |
+      DexAttr.DEFAULT_FORM;
     for (const species of allSpecies) {
       data[species.speciesId] = {
         seenAttr: allAttr,
