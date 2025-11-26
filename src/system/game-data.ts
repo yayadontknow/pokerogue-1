@@ -1856,7 +1856,7 @@ export class GameData {
       }
 
       if (!this.starterData[speciesId].eggMoves) {
-        this.starterData[speciesId].eggMoves = 0;
+        this.starterData[speciesId].eggMoves = 15;
       }
 
       const value = 1 << eggMoveIndex;
